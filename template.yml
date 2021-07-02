@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Description: Saml template for Nexus jobs with lambdas
+Globals:
+  Function:
+    Tags:
+      env: dev
+Parameters:
+  LambdaRole:
+    Type: String
+    Default: arn:aws:iam::052257736952:role/Lambda
+Resources:
+  CheckS3encryption:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      FunctionName: "s3-check-encryption"
+      Handler: app.handler
+      Runtime: python3.8
+      CodeUri: s3
+      Description: "To Check the S3 bucket encryption"
+      MemorySize: 128
+      Timeout: 30
+      Role: !Ref LambdaRole
+  CheckWebsitePeriodically:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.handler
+      Runtime: python3.8
+     # Policies: AmazonDynamoDBFullAccess
+      Events:
+        CheckWebsiteScheduledEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+      
