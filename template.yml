@@ -15,7 +15,7 @@ Resources:
     Properties:
       FunctionName: "com-ebi-nx-s3-check-encryption"
       Handler: lambda_function.lambda_handler
-      Runtime: python3.8
+      Runtime: python2.7
       CodeUri: ./Dev-Lambda/
       Description: "To Check the S3 bucket encryption"
       MemorySize: 128
